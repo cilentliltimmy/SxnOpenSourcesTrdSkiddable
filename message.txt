@@ -1,0 +1,1885 @@
+local SXN = loadstring(game:HttpGet("https://sdk.rawscripts.de/v1/loader"))()
+SXN.WS_INIT()
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/erterdterxtwerferqq-sys/Rayfield/refs/heads/main/source.lua'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Omniware (Camp)",
+   Icon = 122557864089786, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Loading Omniware...",
+   LoadingSubtitle = "by clueless and Adam",
+   ShowText = "Omniware", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "OmniWare"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "5wPUYMJ24", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+local Tab = Window:CreateTab("Challenges", "layers-2")
+local Taba = Window:CreateTab("Main", "star")
+local Characters = Window:CreateTab("Characters", "dollar-sign")
+
+local Button = Tab:CreateButton({
+   Name = "Win Obby",
+   Callback = function()
+   local finish = workspace.Assets:FindFirstChild("Finish", true)
+   
+   if finish then
+       finish.CanCollide = false
+       finish.Transparency = 1
+       wait()
+       finish.Position = game.Players.LocalPlayer.Character.Torso.Position
+       end
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Auto-Win Obby",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local finish = workspace.Assets:FindFirstChild("Finish", true)
+   
+   if Value == true then
+     if finish then
+         finish.CanCollide = false
+         finish.Transparency = 1
+         wait()
+         finish.Position = game.Players.LocalPlayer.Character.Torso.Position
+       end
+     end
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Eat/Finish Pancake",
+   Callback = function()
+   for i, v in pairs(workspace.Assets:GetDescendants()) do
+			if v.Name == game.Players.LocalPlayer.Name then
+				for _ = 1, 80 do
+					fireclickdetector(v.ClickDetector)
+				end
+			end
+		end  
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Spleed God-Mode",
+   Callback = function()
+     local assets = workspace:FindFirstChild("Assets")
+if assets then
+    local spleef = assets:FindFirstChild("Spleef")
+    if spleef then
+        local part = spleef:FindFirstChild("Part")
+        if part then
+            local touch = part:FindFirstChild("TouchInterest")
+            if touch then
+                touch:Destroy()
+            end
+        end
+    end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Remove All Particles in Spleef",
+   Callback = function()
+   for i, v in pairs(game.Workspace.Assets:GetDescendants()) do
+			if v.Name == "SpleefPart" then 
+				firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+			end
+		end
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+    Name = "Auto Collect Coins & Gems",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(state)
+        local Value = state
+
+        while Value do
+            task.wait(0.5)
+            for i, v in pairs(workspace.Assets:GetDescendants()) do
+                if v.Name == "Coin" or v.Name == "Gem" then
+                    v.CanCollide = false
+                    v.Position = game.Players.LocalPlayer.Character.Torso.Position
+                end
+            end
+
+            if not state then
+                break
+            end
+        end
+    end
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Auto-Win Math Mania",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local number = 0
+
+        for i = 1, 10 do
+            task.wait()
+
+            if Value == true then
+                number = number + 1
+                local mathManiaGui = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MathMania")
+
+                if mathManiaGui and mathManiaGui:FindFirstChild(tostring(number)) then
+                    local questionGui = mathManiaGui[tostring(number)]
+                    local s = questionGui.MainText.Text
+
+                    -- Remove equals, question mark, spaces
+                    local clean = s:gsub("=", ""):gsub("?", ""):gsub(" ", "")
+                    local result = loadstring("return " .. clean)()
+
+                    if result then
+                        questionGui.Box.Text = tostring(result)
+                        task.wait()
+
+                        local button = questionGui:FindFirstChild("Enter")
+                        if button then
+                            local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+
+                            for _, event in pairs(events) do
+                                if getconnections and button[event] then
+                                    for _, connection in pairs(getconnections(button[event])) do
+                                        if connection.Function then
+                                            connection:Fire()
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Kill Everyone In Sword Fight (SPAM CLICK)",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   loadstring(game:HttpGet("https://pastebin.com/raw/cuKXdXke"))()
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Win Block Push",
+   Callback = function()
+   for i, v in ipairs(workspace:GetDescendants()) do
+			if v:IsA("Part") and v.Name == "SingularBox" then
+				local distance = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+				if distance <= 100 then
+					for i2, v2 in ipairs(workspace:GetDescendants()) do
+						if v2:IsA("Part") and v2.Name == "Gold" then
+							v.Position = v2.Position + Vector3.new(0, 3, 0)
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position + Vector3.new(0, 3, 0))
+							break
+						end
+					end
+					break
+				end
+			end
+		end
+   end,
+})
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local camera = workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+local ToggleConn
+local Highlights = {}
+
+local function getClosestEnemy()
+	local char = LocalPlayer.Character
+	if not char then return nil end
+	local hrp = char:FindFirstChild("HumanoidRootPart")
+	if not hrp then return nil end
+
+	local closest, dist = nil, math.huge
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr ~= LocalPlayer and (not plr.Team or plr.Team ~= LocalPlayer.Team) then
+			local c = plr.Character
+			local h = c and c:FindFirstChild("HumanoidRootPart")
+			if h then
+				local d = (hrp.Position - h.Position).Magnitude
+				if d < dist then
+					dist = d
+					closest = plr
+				end
+			end
+		end
+	end
+	return closest
+end
+
+local function addHighlight(player)
+	if Highlights[player] then return end
+	local char = player.Character
+	if not char then return end
+	local highlight = Instance.new("Highlight")
+	highlight.Adornee = char
+	highlight.FillColor = Color3.fromRGB(255,0,0)
+	highlight.OutlineColor = Color3.fromRGB(255,255,255)
+	highlight.Parent = game.CoreGui
+	Highlights[player] = highlight
+end
+
+local function removeHighlight(player)
+	if Highlights[player] then
+		Highlights[player]:Destroy()
+		Highlights[player] = nil
+	end
+end
+
+local Button = Tab:CreateButton({
+    Name = "Obby God-Mode",
+    Callback = function()
+        local klp = {"Mud", "Water", "Lava"}
+        for _, v in pairs(workspace.Assets:GetDescendants()) do
+            if table.find(klp, v.Name) then
+                local touch = v:FindFirstChild("TouchInterest")
+                if touch then
+                    touch:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+local lastShot = 0
+local cooldown = 0
+
+local Toggle = Tab:CreateToggle({
+    Name = "Auto-Kill The Closest Person",
+    CurrentValue = false,
+    Flag = "AutoKillToggle",
+    Callback = function(state)
+        if ToggleConn then
+            ToggleConn:Disconnect()
+            ToggleConn = nil
+        end
+
+        for p,_ in pairs(Highlights) do
+            removeHighlight(p)
+        end
+
+        if state then
+            ToggleConn = RunService.RenderStepped:Connect(function()
+                local target = getClosestEnemy()
+                if not target or not target.Character then return end
+
+                local hrp = target.Character:FindFirstChild("HumanoidRootPart")
+                local char = LocalPlayer.Character
+                local gun = char and char:FindFirstChild("PaintballGun")
+                local handle = gun and (gun:FindFirstChild("Handle") or gun:FindFirstChildWhichIsA("BasePart"))
+
+                if hrp and gun and handle then
+                    addHighlight(target)
+                    Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, hrp.Position)
+
+                    if tick() - lastShot >= cooldown then
+                        lastShot = tick()
+                        local shootCFrame = CFrame.lookAt(handle.Position, hrp.Position)
+                        gun.Fire:FireServer(shootCFrame)
+                    end
+                end
+            end)
+        end
+    end
+})
+
+
+
+
+-------/// CHARACTERS FEATURES ///----------
+
+local Section = Characters:CreateSection("FREE")
+
+local Button = Characters:CreateButton({
+   Name = "Male Character",
+   Callback = function()
+   game:GetService("ReplicatedStorage").Events.Buy:FireServer("Gender", "Male")
+   end,
+})
+
+local Button = Characters:CreateButton({
+   Name = "Female Character",
+   Callback = function()
+   game:GetService("ReplicatedStorage").Events.Buy:FireServer("Gender", "Female")
+   end,
+})
+
+local Section = Characters:CreateSection("PAID")
+
+
+local selectedSymbol = ""
+local characterName = ""
+
+local symbolMap = {
+	["Nothing"] = "",
+	[" Verified"] = "",
+	[" Premium"] = "",
+	[" Robux"] = ""
+}
+
+local Dropdown = Characters:CreateDropdown({
+	Name = "Select a Symbol for Buy Character",
+	Options = {
+		"Nothing",
+		" Verified",
+		" Premium",
+		" Robux"
+	},
+	CurrentOption = {"Nothing"},
+	MultipleOptions = false,
+	Flag = "Dropdown1",
+	Callback = function(Options)
+		selectedSymbol = symbolMap[Options[1]] or ""
+	end,
+})
+
+local Input = Characters:CreateInput({
+	Name = "Enter the Character Name You Want",
+	CurrentValue = "",
+	PlaceholderText = "Character Name Here...",
+	RemoveTextAfterFocusLost = false,
+	Flag = "Input1",
+	Callback = function(Text)
+		characterName = Text
+	end,
+})
+
+local Button = Characters:CreateButton({
+	Name = "Buy Character (@60)",
+	Callback = function()
+		if characterName == "" then return end
+
+		local finalText = characterName
+		if selectedSymbol ~= "" then
+			finalText = characterName .. " " .. selectedSymbol
+		end
+
+		game:GetService("ReplicatedStorage").Events.Buy:FireServer(
+			"Character",
+			finalText
+		)
+	end,
+})
+
+local Section = Taba:CreateSection("Safety Statue")
+
+local Button = Taba:CreateButton({
+   Name = "Get Safety Statue",
+   Callback = function()
+   for i, v in pairs(workspace.Idols:GetDescendants()) do
+       if v.Name == "Bag" then
+           v.hit.CanCollide = false
+           v.hit.Transparency = 1
+           wait()
+           v.hit.Position = game.Players.LocalPlayer.Character.Torso.Position
+           wait()
+       elseif v.Name == "SafetyStatue" then
+           v.hit.CanCollide = false
+           v.hit.Transparency = 1
+           wait()
+           v.hit.Position = game.Players.LocalPlayer.Character.Torso.Position
+           wait()
+       end
+    end
+   end,
+})
+
+local Button = Taba:CreateButton({
+   Name = "Notify Who Has Statue",
+   Callback = function()
+   local v = game.ReplicatedStorage.Season.Twists.Idol
+   if v.Value == "" then
+       Rayfield:Notify({
+   Title = "Statue Owner",
+   Content = "No one currently has the statue or it didn't spawn.",
+   Duration = 4,
+   Image = "bell-ring",
+})
+   else
+       local c = game.ReplicatedStorage.Season.Players:FindFirstChild(v.Value).Value
+       Rayfield:Notify({
+   Title = "Statue Owner",
+   Content = c .. " has the statue",
+   Duration = 4,
+   Image = "bell-ring",
+})
+      end
+   end,
+})
+
+local Toggle = Taba:CreateToggle({
+   Name = "Safety Bag ESP",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   if Value then
+			for _, bag in ipairs(workspace.Idols:GetDescendants()) do
+				if bag.Name == "Bag" and bag:IsA("Model") then
+
+					local part = bag.PrimaryPart or bag:FindFirstChildWhichIsA("BasePart")
+					if not part then continue end
+
+					if not bag:FindFirstChild("BagHighlight") then
+						local highlight = Instance.new("Highlight")
+						highlight.Name = "BagHighlight"
+						highlight.FillTransparency = 1
+						highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+						highlight.Parent = bag
+					end
+
+					if not bag:FindFirstChild("BagESP") then
+						local billboard = Instance.new("BillboardGui")
+						billboard.Name = "BagESP"
+						billboard.Size = UDim2.new(0, 220, 0, 60)
+						billboard.StudsOffset = Vector3.new(0, 3, 0)
+						billboard.AlwaysOnTop = true
+						billboard.Adornee = part
+						billboard.Parent = bag
+
+						local text = Instance.new("TextLabel")
+						text.Size = UDim2.new(1, 0, 1, 0)
+						text.BackgroundTransparency = 1
+						text.Text = "SAFETY BAG"
+						text.TextColor3 = Color3.fromRGB(255, 255, 255)
+						text.TextStrokeTransparency = 0
+						text.TextScaled = true
+						text.Font = Enum.Font.GothamBold
+						text.Parent = billboard
+					end
+				end
+			end
+		else
+			for _, bag in ipairs(workspace:GetDescendants()) do
+				if bag.Name == "Bag" then
+					if bag:FindFirstChild("BagHighlight") then
+						bag.BagHighlight:Destroy()
+					end
+					if bag:FindFirstChild("BagESP") then
+						bag.BagESP:Destroy()
+					end
+				end
+			end
+		end
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Toggle = Taba:CreateToggle({
+   Name = "Safety Statue ESP",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   if Value then
+			for _, statue in ipairs(workspace.Idols:GetDescendants()) do
+				if statue.Name == "SafetyStatue" and statue:IsA("Model") then
+
+					local part = statue.PrimaryPart or statue:FindFirstChildWhichIsA("BasePart")
+					if not part then continue end
+
+					if not statue:FindFirstChild("StatueHighlight") then
+						local highlight = Instance.new("Highlight")
+						highlight.Name = "StatueHighlight"
+						highlight.FillTransparency = 1
+						highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+						highlight.Parent = statue
+					end
+
+					if not statue:FindFirstChild("StatueESP") then
+						local billboard = Instance.new("BillboardGui")
+						billboard.Name = "StatueESP"
+						billboard.Size = UDim2.new(0, 260, 0, 70)
+						billboard.StudsOffset = Vector3.new(0, 4, 0)
+						billboard.AlwaysOnTop = true
+						billboard.Adornee = part
+						billboard.Parent = statue
+
+						local text = Instance.new("TextLabel")
+						text.Size = UDim2.new(1, 0, 1, 0)
+						text.BackgroundTransparency = 1
+						text.Text = "SAFETY STATUE"
+						text.TextColor3 = Color3.fromRGB(255, 255, 255)
+						text.TextStrokeTransparency = 0
+						text.TextScaled = true
+						text.Font = Enum.Font.GothamBold
+						text.Parent = billboard
+					end
+				end
+			end
+		else
+			for _, statue in ipairs(workspace:GetDescendants()) do
+				if statue.Name == "SafetyStatue" then
+					if statue:FindFirstChild("StatueHighlight") then
+						statue.StatueHighlight:Destroy()
+					end
+					if statue:FindFirstChild("StatueESP") then
+						statue.StatueESP:Destroy()
+					end
+				end
+			end
+		end
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Section = Taba:CreateSection("Votes")
+
+local Toggle = Taba:CreateToggle({
+	Name = "Notify Votes",
+	CurrentValue = false,
+	Flag = "NotifyVotes",
+	Callback = function(Value)
+		if Value then
+			-- store connection inside the toggle itself
+			Tab.NotifyVotesConn = game.ReplicatedStorage.Season.Voting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+
+				Rayfield:Notify({
+					Title = "Vote Update",
+					Content = r .. " voted for " .. d,
+					Duration = 3,
+					Image = "bell-ring",
+				})
+			end)
+		else
+			if Tab.NotifyVotesConn then
+				Tab.NotifyVotesConn:Disconnect()
+				Tab.NotifyVotesConn = nil
+			end
+		end
+	end,
+})
+
+local Toggle = Taba:CreateToggle({
+	Name = "Print Votes in /console",
+	CurrentValue = false,
+	Flag = "PrintVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.PrintVotesConn = game.ReplicatedStorage.Season.Voting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				print(r .. " voted for " .. d)
+			end)
+		else
+			if Tab.PrintVotesConn then
+				Tab.PrintVotesConn:Disconnect()
+				Tab.PrintVotesConn = nil
+			end
+		end
+	end,
+})
+
+local Toggle = Taba:CreateToggle({
+	Name = "Expose Votes",
+	CurrentValue = false,
+	Flag = "ExposeVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.ExposeVotesConn = game.ReplicatedStorage.Season.Voting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				game.TextChatService.TextChannels.RBXGeneral:SendAsync(
+					r .. " voted for " .. d
+				)
+			end)
+		else
+			if Tab.ExposeVotesConn then
+				Tab.ExposeVotesConn:Disconnect()
+				Tab.ExposeVotesConn = nil
+			end
+		end
+	end,
+})
+
+local Toggle = Taba:CreateToggle({
+	Name = "Notify & Print Exile Votes",
+	CurrentValue = false,
+	Flag = "ExileVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.ExileVotesConn = game.ReplicatedStorage.Season.Twists.ExileVoting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				local s = r .. " voted to exile " .. d
+
+				Rayfield:Notify({
+					Title = "Exile Vote",
+					Content = s,
+					Duration = 3.5,
+					Image = "bell-ring",
+				})
+
+				print(s)
+			end)
+		else
+			if Tab.ExileVotesConn then
+				Tab.ExileVotesConn:Disconnect()
+				Tab.ExileVotesConn = nil
+			end
+		end
+	end,
+})
+
+
+
+local Section = Taba:CreateSection("Special")
+
+local Button = Taba:CreateButton({
+   Name = "Detect Round",
+   Callback = function()
+   local t = game.ReplicatedStorage.Season.Twists:FindFirstChild("CurrentTwist")
+
+if t.Value == "Undecided" then
+    Rayfield:Notify({
+        Title = "Round Undecided",
+        Content = "The round hasn't been decided yet. Please wait.",
+        Duration = 4,
+        Image = "bell-ring",
+    })
+
+elseif t.Value == "normal" then
+    Rayfield:Notify({
+        Title = "Normal Round",
+        Content = "This will be a casual round. (Nothing special)",
+        Duration = 4,
+        Image = "bell-ring",
+    })
+
+elseif t.Value == "purge" then
+    Rayfield:Notify({
+        Title = "Purge Round",
+        Content = "This will be a purge round.",
+        Duration = 4,
+        Image = "bell-ring",
+    })
+
+elseif t.Value == "double" then
+    Rayfield:Notify({
+        Title = "Double Elimination",
+        Content = "Two people will be eliminated this round.",
+        Duration = 4,
+        Image = "bell-ring",
+    })
+
+elseif t.Value == "singleswap" then
+    Rayfield:Notify({
+        Title = "Sike Round",
+        Content = "The player that will be eliminated this round will be transferred to another team.",
+        Duration = 4,
+        Image = "bell-ring",
+    })
+
+elseif t.Value == "exile" then
+    Rayfield:Notify({
+        Title = "Exile Vote Round",
+        Content = "There will be an exile vote this round.",
+        Duration = 4,
+        Image = "bell-ring"
+    })
+elseif t.Value == "votereveal" then
+    Rayfield:Notify({
+   Title = "Vote Reveal",
+   Content = "Kyle will expose/reveal the votes this round.",
+   Duration = 6.5,
+   Image = "bell-ring",
+})
+end
+   end,
+})
+
+local Button = Taba:CreateButton({
+   Name = "Fling/Restart Day (Reanimate)",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.rawscriptserver.com/585913789866"))()
+   end,
+})
+
+local Button = Taba:CreateButton({
+   Name = "Detect Teamers (Check /console)",
+   Callback = function()
+   local Players = game:GetService("Players")
+        local RS = game:GetService("ReplicatedStorage")
+
+        -- reference to in-game player name folder
+        local season = RS:FindFirstChild("Season")
+        if not season then return end
+
+        local playersFolder = season:FindFirstChild("Players")
+        if not playersFolder then return end
+
+        local function getInGameName(player)
+            local data = playersFolder:FindFirstChild(player.Name)
+            if data and data.Value ~= "" then
+                return data.Value
+            end
+            return player.Name
+        end
+
+        for i, p1 in ipairs(Players:GetPlayers()) do
+            for j, p2 in ipairs(Players:GetPlayers()) do
+                if j > i then
+                    local ok, areFriends = pcall(function()
+                        return p1:IsFriendsWith(p2.UserId)
+                    end)
+
+                    if ok and areFriends then
+                        local in1 = getInGameName(p1)
+                        local in2 = getInGameName(p2)
+
+                        print(in1.." ("..p1.Name..") is friends with "..in2.." ("..p2.Name..")")
+                    end
+                end
+            end
+        end
+   end,
+})
+
+local Toggle = Taba:CreateToggle({
+   Name = "Show Everyone's User",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   if Value == true then
+       loadstring(game:HttpGet("https://pastefy.app/O42FgG2q/raw"))()
+   elseif Value == false then
+       loadstring(game:HttpGet("https://pastefy.app/BmaxmIzK/raw"))()
+   end
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local Button = Taba:CreateButton({
+	Name = "Remove Cutscene",
+	Callback = function()
+		local events = game:GetService("ReplicatedStorage"):FindFirstChild("Events")
+		local camEvent = events and events:FindFirstChild("Camera")
+		if camEvent then
+			camEvent:Destroy()
+		end
+
+		local char = player.Character
+		if char then
+			local hum = char:FindFirstChildOfClass("Humanoid")
+			if hum then
+				camera.CameraType = Enum.CameraType.Custom
+				camera.CameraSubject = hum
+			end
+		end
+	end,
+})
+
+
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local CoreGui = game:GetService("CoreGui")
+local conn
+
+local Toggle = Taba:CreateToggle({
+	Name = "Auto-Block Long Names",
+	CurrentValue = false,
+	Flag = "AutoBlockLongNames",
+	Callback = function(state)
+		if conn then
+			conn:Disconnect()
+			conn = nil
+		end
+
+		if state then
+			conn = RunService.RenderStepped:Connect(function()
+				local chatContainer = CoreGui:FindFirstChild("ExperienceChat")
+				if chatContainer then
+					local contentView =
+						chatContainer:FindFirstChild("appLayout")
+						and chatContainer.appLayout:FindFirstChild("chatWindow")
+						and chatContainer.appLayout.chatWindow:FindFirstChild("scrollingView")
+						and chatContainer.appLayout.chatWindow.scrollingView:FindFirstChild("bottomLockedScrollView")
+						and chatContainer.appLayout.chatWindow.scrollingView.bottomLockedScrollView:FindFirstChild("RCTScrollView")
+						and chatContainer.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView:FindFirstChild("RCTScrollContentView")
+					if contentView then
+						for _, frame in pairs(contentView:GetChildren()) do
+							local textMsg = frame:FindFirstChild("TextMessage")
+							if textMsg then
+								for _, obj in pairs(textMsg:GetChildren()) do
+									if obj:IsA("TextLabel") and #obj.Text > 700 then
+										obj:Destroy()
+									elseif obj:IsA("Frame") and obj.Name == "TextMessageButton" then
+										local btn = obj:FindFirstChildOfClass("TextButton")
+										if btn and #btn.Text > 700 then
+											btn:Destroy()
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+
+				for _, plr in pairs(Players:GetPlayers()) do
+					local char = plr.Character
+					local head = char and char:FindFirstChild("Head")
+					local nameGUI = head and (head:FindFirstChild("NameGUI") or head:FindFirstChild("playerName"))
+					local sector = nameGUI and nameGUI:FindFirstChild("Sector")
+					local nameLabel = sector and sector:FindFirstChild("name")
+					if nameLabel and nameLabel:IsA("TextLabel") and #nameLabel.Text > 700 then
+						nameLabel.Text = nameLabel.Text:sub(1,1).."..."
+					end
+				end
+
+				local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+				local scroller = playerGui
+					and playerGui:FindFirstChild("PlayerListGui")
+					and playerGui.PlayerListGui:FindFirstChild("PlayerScroller")
+				if scroller then
+					for _, frame in pairs(scroller:GetChildren()) do
+						if frame.Name == "PlayerFrame" then
+							local display = frame:FindFirstChild("DisplayName")
+							if display and display:IsA("TextLabel") and #display.Text > 700 then
+								display.Text = display.Text:sub(1,1).."..."
+							end
+						end
+					end
+				end
+
+				local background = playerGui
+					and playerGui:FindFirstChild("Game")
+					and playerGui.Game:FindFirstChild("Background")
+				if background then
+					for _, obj in pairs(background:GetDescendants()) do
+						if obj:IsA("TextLabel") and #obj.Text > 700 then
+							obj.Text = obj.Text:sub(1,1).."..."
+						end
+					end
+				end
+			end)
+		end
+	end
+})
+
+local Button = Taba:CreateButton({
+   Name = "Instant Respawn",
+   Callback = function()
+   --[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+function respawn(plr)
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    local ogpos = hrp.CFrame
+    local ogpos2 = workspace.CurrentCamera.CFrame
+    local faggot = gethiddenproperty(workspace, "RejectCharacterDeletions") ~= Enum.RejectCharacterDeletions.Disabled
+
+    if faggot and replicatesignal then
+        replicatesignal(plr.ConnectDiedSignalBackend)
+        task.wait(game:GetService("Players").RespawnTime - 0.1)
+        replicatesignal(plr.Kill)
+    else
+        local hum = char:FindFirstChildWhichIsA("Humanoid")
+        if hum then hum:ChangeState(Enum.HumanoidStateType.Dead) end
+        char:ClearAllChildren()
+
+        local newgen = Instance.new("Model")
+        newgen.Parent = workspace
+        plr.Character = newgen
+        task.wait()
+        plr.Character = plr.Character
+        newgen:Destroy()
+    end
+
+    task.spawn(function()
+        plr.CharacterAdded:Wait():WaitForChild("HumanoidRootPart").CFrame = ogpos
+        workspace.CurrentCamera.CFrame = ogpos2
+    end)
+end
+
+respawn(game:GetService("Players").LocalPlayer)
+   end,
+})
+
+local Tabb = Window:CreateTab("Player", "users") -- Title, Image
+
+local Slider = Tabb:CreateSlider({
+   Name = "Walkspeed",
+   Range = {1, 350},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   workspace[game.Players.LocalPlayer.Name].Humanoid.WalkSpeed = Value
+   -- The variable (Value) is a number which correlates to the value the slider is currently at
+   end,
+})
+
+local Slider = Tabb:CreateSlider({
+   Name = "Jump Power",
+   Range = {1, 350},
+   Increment = 1,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   workspace[game.Players.LocalPlayer.Name].Humanoid.JumpPower = Value
+   -- The variable (Value) is a number which correlates to the value the slider is currently at
+   end,
+})
+
+local Button = Tabb:CreateButton({
+   Name = "Remove Barriers",
+   Callback = function()
+   for i, v in pairs(workspace:GetDescendants()) do
+            if v.Name == "Glass" then
+                v:Destroy()
+            end
+        end
+   end,
+})
+
+local Toggle = Tabb:CreateToggle({
+   Name = "Walk on Water",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   workspace.Map["Roblox Drama: Camp"].Map.Lake.Water.CanCollide = Value
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+
+local Button = Tabb:CreateButton({
+   Name = "Water God-Mode",
+   Callback = function()
+   workspace.Map["Roblox Drama: Camp"].Sand.TouchInterest:Destroy()
+   end,
+})
+
+local Input = Tabb:CreateInput({
+   Name = "Custom Coins (CLIENT)",
+   CurrentValue = "",
+   PlaceholderText = "Numbers only... ",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Input1",
+   Callback = function(Text)
+   game.Players.LocalPlayer.DataStore.Coins.Value = Text
+   -- The variable (Text) is a string for the value in the text box
+   end,
+})
+
+local Divider = Tabb:CreateDivider()
+
+local stat = ""
+local list = {}
+for _, v in ipairs(game.ReplicatedStorage.Season.Players:GetChildren()) do
+  if v.Name ~= game.Players.LocalPlayer.Name then
+    table.insert(list, v.Value)
+  end
+end
+
+local Dropdownoo = Tabb:CreateDropdown({
+   Name = "Choose Player",
+   Options = list,
+   CurrentOption = list[1],
+   MultipleOptions = false,
+   Flag = "Dropdownoo", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+   stat = Options[1]
+   -- The variable (Options) is a table of strings for the current selected options
+   end,
+})
+
+local Button = Tabb:CreateButton({
+   Name = "Teleport to Player",
+   Callback = function()
+   for i, v in ipairs(game.ReplicatedStorage.Season.Players:GetChildren()) do
+       if v.Value == stat then
+           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(v.Name).Character.HumanoidRootPart.CFrame
+           break
+       end
+    end
+   end,
+})
+
+local Toggle = Tabb:CreateToggle({
+    Name = "Highlight Player",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+
+        for _, v in ipairs(game.ReplicatedStorage.Season.Players:GetChildren()) do
+            if v.Value == stat then
+                local player = game.Players:FindFirstChild(v.Name)
+                if not player or not player.Character then return end
+
+                if Value then
+                    if playerHighlight then
+                        playerHighlight:Destroy()
+                    end
+
+                    playerHighlight = Instance.new("Highlight")
+                    playerHighlight.FillColor = Color3.fromRGB(255, 221, 0)
+                    playerHighlight.OutlineColor = Color3.fromRGB(255, 221, 0)
+                    playerHighlight.FillTransparency = 0.5
+                    playerHighlight.OutlineTransparency = 0
+                    playerHighlight.Parent = player.Character
+                else
+                    if playerHighlight then
+                        playerHighlight:Destroy()
+                        playerHighlight = nil
+                    end
+                end
+
+                break
+            end
+        end
+    end
+})
+
+local Button = Tabb:CreateButton({
+    Name = "Refresh List",
+    Callback = function()
+        local nlist = {}
+        for _, v in ipairs(game.ReplicatedStorage:WaitForChild("Season"):WaitForChild("Players"):GetChildren()) do
+            if v:IsA("ValueBase") and v.Name ~= game.Players.LocalPlayer.Name then
+                table.insert(nlist, tostring(v.Value))
+            end
+        end
+        Dropdownoo:Refresh(nlist)
+        if #nlist > 0 then
+            Dropdownoo:Set({ nlist[1] })
+        end
+    end,
+})
+
+local Tabc = Window:CreateTab("Stats Viewer", "sticky-note") -- Title, Image
+
+local ply = {}
+for _, v in ipairs(game.Players:GetPlayers()) do
+	table.insert(ply, v.Name)
+end
+
+local stato = ply[1] -- FIX
+
+local Dropdownee = Tabc:CreateDropdown({
+	Name = "Choose Player",
+	Options = ply,
+	CurrentOption = stato,
+	MultipleOptions = false,
+	Flag = "Dropdownee",
+	Callback = function(value)
+		stato = value[1]
+	end,
+})
+
+local Button = Tabc:CreateButton({
+    Name = "Refresh List",
+    Callback = function()
+        local nlist = {}
+        for _, v in ipairs(game.Players:GetChildren()) do
+            table.insert(nlist, v.Name)
+            end
+        Dropdownee:Refresh(nlist)
+    end,
+})
+
+local Divider = Tabc:CreateDivider()
+
+local Button = Tabc:CreateButton({
+   Name = "Print Skins (/console)",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.Skins
+   if #skins:GetChildren() == 0 then
+     print(stato .. " has no skins.")
+   else
+     print(stato .. " has these skins: ")
+     for i, v in ipairs(skins:GetChildren()) do
+       print(v.Name)
+     end
+   end
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Print Marshmallows (/console)",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.Marshmallows
+   if #skins:GetChildren() == 0 then
+     print(stato .. " has no marshmalllows.")
+   else
+     print(stato .. " has these marshmallows: ")
+     for i, v in ipairs(skins:GetChildren()) do
+       print(v.Name)
+     end
+   end
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Camp Wins",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.CampWins
+   Rayfield:Notify({
+   Title = "Camp Wins",
+   Content = stato .. " has " .. skins.Value .. " camp wins.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Movies Wins",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.MoviesWins
+   Rayfield:Notify({
+   Title = "Camp Wins",
+   Content = stato .. " has " .. skins.Value .. " movies wins.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Expedition Wins",
+   Callback = function()
+   local skins = game.Players[stato6].DataStore.ExpeditionWins
+   Rayfield:Notify({
+   Title = "Camp Wins",
+   Content = stato .. " has " .. skins.Value .. " expedition wins.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Coins",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.Coins
+   Rayfield:Notify({
+   Title = "Coins",
+   Content = stato .. " has " .. skins.Value .. " coins.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Comeback Wins",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.ComebackWins
+   Rayfield:Notify({
+   Title = "Comeback Wins",
+   Content = stato .. " has " .. skins.Value .. " comeback wins.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Games Played",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.GamesPlayed
+   Rayfield:Notify({
+   Title = "Games Played",
+   Content = stato .. " played a total of " .. skins.Value .. " games.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Idols Found",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.IdolsFound
+   Rayfield:Notify({
+   Title = "Idols Collected",
+   Content = stato .. " found " .. skins.Value .. " total idols.",
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Button = Tabc:CreateButton({
+   Name = "Notify Confessional",
+   Callback = function()
+   local skins = game.Players[stato].DataStore.Confessional
+   Rayfield:Notify({
+   Title = stato .. "'s Confessional",
+   Content = skins.Value,
+   Duration = 4,
+   Image = "hash",
+})
+   end,
+})
+
+local Tabg = Window:CreateTab("Confessional", "message-square-text") -- Title, Image
+
+local uut = ""
+
+local Input = Tabg:CreateInput({
+   Name = "Type New Confessional",
+   CurrentValue = "",
+   PlaceholderText = "Type New Confessional",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Input1",
+   Callback = function(Text)
+   uut = Text
+   -- The variable (Text) is a string for the value in the text box
+   end,
+})
+
+local Button = Tabg:CreateButton({
+   Name = "Change Confessional",
+   Callback = function()
+   local args = {
+    uut
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Confessional"):FireServer(unpack(args))
+   end,
+})
+
+local Section = Tabg:CreateSection("Colored")
+
+local color = "FFFFFF" -- default white
+
+local ColorPicker = Tabg:CreateColorPicker({
+    Name = "Color Picker",
+    Color = Color3.fromRGB(255, 255, 255),
+    Flag = "ColorPicker1",
+    Callback = function(Value)
+        -- UPDATE the OUTER color variable
+        color = string.format("%02X%02X%02X", 
+            math.floor(Value.R * 255), 
+            math.floor(Value.G * 255), 
+            math.floor(Value.B * 255)
+        )
+    end
+})
+
+local utah = ""
+
+local Input = Tabg:CreateInput({
+   Name = "Type New Confessional",
+   CurrentValue = "",
+   PlaceholderText = "Type New Confessional",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Input1",
+   Callback = function(Text)
+       utah = Text
+   end,
+})
+
+local Button = Tabg:CreateButton({
+   Name = "Change Confessional",
+   Callback = function()
+       local args = {
+           '<font color="#' .. color .. '">' .. utah .. '</font>'
+       }
+       game:GetService("ReplicatedStorage")
+           :WaitForChild("Events")
+           :WaitForChild("Confessional")
+           :FireServer(unpack(args))
+   end,
+})
+
+local Tabd = Window:CreateTab("Teleports", "map") -- Title, Image
+
+local Button = Tabd:CreateButton({
+   Name = "Spectator Island",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(33, -16, 31)
+   end,
+})
+
+local Button = Tabd:CreateButton({
+   Name = "Main Island",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(150, -17, -417)
+   end,
+})
+
+local Button = Tabd:CreateButton({
+   Name = "Exile Island",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(-116, -14, -166)
+   end,
+})
+
+local Button = Tabd:CreateButton({
+   Name = "Voting Area",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(-23, 95, -514)
+   end,
+})
+
+local Button = Tabd:CreateButton({
+   Name = "Boat",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(47, -20, -297)
+   end,
+})
+
+local Button = Tabd:CreateButton({
+   Name = "Bathroom",
+   Callback = function()
+   game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(302, -15, -325)
+   end,
+})
+
+local Tabe = Window:CreateTab("Universal", "code") -- Title, Image
+
+local Button = Tabe:CreateButton({
+   Name = "VC Unban",
+   Callback = function()
+   game:GetService("VoiceChatService"):joinVoice()
+   end,
+})
+
+local Button = Tabe:CreateButton({
+   Name = "Shaders",
+   Callback = function()
+   --[[
+    WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+local l = game:GetService("Lighting")
+local t = workspace.Terrain
+
+settings().Rendering.QualityLevel = Enum.QualityLevel.Level21
+
+l.Technology = Enum.Technology.ShadowMap
+l.ShadowSoftness = 0.15
+l.ClockTime = 9
+l.GeographicLatitude = 41.73
+
+l.Brightness = 5
+l.Ambient = Color3.fromRGB(70, 70, 70)
+l.ColorShift_Top = Color3.fromRGB(255, 138, 35)
+l.ColorShift_Bottom = Color3.fromRGB(0, 0, 0)
+l.OutdoorAmbient = Color3.fromRGB(135, 135, 135)
+
+l.GlobalShadows = true
+l.EnvironmentDiffuseScale = 1
+l.EnvironmentSpecularScale = 1
+l.ExposureCompensation = 0
+
+t.WaterReflectance = 0.08
+t.WaterTransparency = 0.85
+t.WaterWaveSize = 0.15
+t.WaterWaveSpeed = 12
+t.WaterColor = Color3.fromRGB(12, 84, 92)
+
+local sky = Instance.new("Sky", l)
+sky.SkyboxBk = "rbxassetid://271042516"
+sky.SkyboxDn = "rbxassetid://271077243"
+sky.SkyboxFt = "rbxassetid://271042556"
+sky.SkyboxLf = "rbxassetid://271042310"
+sky.SkyboxRt = "rbxassetid://271042467"
+sky.SkyboxUp = "rbxassetid://271077958"
+   end,
+})
+
+local Button = Tabe:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = Tabe:CreateButton({
+   Name = "Energize",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/Cfeu2ZPc"))()
+   end,
+})
+
+local Button = Tabe:CreateButton({
+   Name = "Fly V3",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+   end,
+})
+
+local Button = Tabe:CreateButton({
+   Name = "Sound Panel",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/w3uzjgEq"))()
+   end,
+})
+
+
+
+local Tabf = Window:CreateTab("Discord", "info") -- Title, Image
+
+local Button = Tabf:CreateButton({
+   Name = "Copy Discord Server Link",
+   Callback = function()
+   setclipboard("https://discord.gg/5wPUYMJ24")
+   end,
+})
+
+local Label = Tabf:CreateLabel("zenx Discord Contact: zenxlol_", "rewind")
+
+local Label = Tabf:CreateLabel("Adam Discord Contact: sylahubowner", "rewind")
+
+local Tabsecret = Window:CreateTab("VIP (Beta)", 4483362458) -- Title, Image
+
+
+local SelectedUser = nil
+		local UserDropdown -- Forward declaration
+
+		local function RefreshUserList()
+			SXN.CurrentPlayers = nil 
+			SXN.WS_GETONLINE()
+			
+			local startTime = tick()
+			repeat task.wait() until SXN.CurrentPlayers or (tick() - startTime > 5)
+			
+			if not SXN.CurrentPlayers then
+				Rayfield:Notify({Title = "Error", Content = "Timeout fetching users.", Duration = 3})
+				return
+			end
+
+			local userOptions = {}
+			for _, p in ipairs(SXN.CurrentPlayers) do
+				if p.rank and p.rank == "Normal" then
+					table.insert(userOptions, p.username)
+				end
+			end
+			
+			if #userOptions == 0 then
+				userOptions = {"No Users Found"}
+			end
+
+			if UserDropdown then
+				UserDropdown:Refresh(userOptions)
+			end
+			
+			Rayfield:Notify({Title = "Updated", Content = "Found " .. #userOptions .. " normal users.", Duration = 2})
+		end
+        
+        -- Auto Refresh Logic
+        game.Players.PlayerAdded:Connect(function()
+            task.wait(2) -- Debounce/Wait for backend propagation
+            RefreshUserList()
+        end)
+        
+        game.Players.PlayerRemoving:Connect(function()
+            task.wait(2)
+            RefreshUserList()
+        end)
+
+		UserDropdown = Tabsecret:CreateDropdown({
+			Name = "Omniware users in your server",
+			Options = {"Loading..."},
+			CurrentOption = {"Loading..."},
+			MultipleOptions = false,
+			Flag = "TargetUserDropdown",
+			Callback = function(Option)
+				SelectedUser = Option[1]
+			end,
+			RefreshCallback = RefreshUserList
+		})
+        
+        -- Initial Refresh
+        task.spawn(RefreshUserList)
+
+local Divider = Tabsecret:CreateDivider()
+
+
+
+  local Toggle = Tabsecret:CreateToggle({
+   Name = "Auto-Win All Challenges",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(state)
+   local assets = workspace.Assets
+   local finish = assets:FindFirstChild("Finish", true)
+   local torso = game.Players.LocalPlayer.Character.Torso
+   if finish and state == true then
+     finish.CanCollide = false
+     finish.Transparency = 1
+     wait()
+     finish.Position = torso.Position
+   end
+   local Value = state
+   if assets:FindFirstChild("Coin", true) and state == true then
+        while Value do
+            task.wait(0.5)
+            for i, v in pairs(workspace.Assets:GetDescendants()) do
+                if v.Name == "Coin" or v.Name == "Gem" then
+                    v.CanCollide = false
+                    v.Position = game.Players.LocalPlayer.Character.Torso.Position
+                end
+            end
+
+            if not state then
+                break
+            end
+        end
+   end
+   if assets:FindFirstChild("SingularBox", true) and state == true then
+     for i, v in ipairs(workspace:GetDescendants()) do
+			if v:IsA("Part") and v.Name == "SingularBox" then
+				local distance = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+				if distance <= 100 then
+					for i2, v2 in ipairs(workspace:GetDescendants()) do
+						if v2:IsA("Part") and v2.Name == "Gold" then
+							v.Position = v2.Position + Vector3.new(0, 3, 0)
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position + Vector3.new(0, 3, 0))
+							break
+						end
+					end
+					break
+				end
+			end
+		end
+   end
+   if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MathMania") and state == true then
+     local number = 0
+
+        for i = 1, 10 do
+            task.wait()
+
+            if state == true then
+                number = number + 1
+                local mathManiaGui = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MathMania")
+
+                if mathManiaGui and mathManiaGui:FindFirstChild(tostring(number)) then
+                    local questionGui = mathManiaGui[tostring(number)]
+                    local s = questionGui.MainText.Text
+
+                    -- Remove equals, question mark, spaces
+                    local clean = s:gsub("=", ""):gsub("?", ""):gsub(" ", "")
+                    local result = loadstring("return " .. clean)()
+
+                    if result then
+                        questionGui.Box.Text = tostring(result)
+                        task.wait()
+
+                        local button = questionGui:FindFirstChild("Enter")
+                        if button then
+                            local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+
+                            for _, event in pairs(events) do
+                                if getconnections and button[event] then
+                                    for _, connection in pairs(getconnections(button[event])) do
+                                        if connection.Function then
+                                            connection:Fire()
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+   end
+   if assets:FindFirstChildOfClass("Tool") and state == true then
+     local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+local loop
+     if state then
+            loop = RunService.RenderStepped:Connect(function()
+                local char = lp.Character
+                local tool = char and char:FindFirstChildOfClass("Tool")
+                if not (tool and tool:FindFirstChild("Handle")) then return end
+
+                for _, plr in ipairs(Players:GetPlayers()) do
+                    if plr ~= lp and plr.Character then
+                        tool:Activate()
+                        for _, part in ipairs(plr.Character:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                firetouchinterest(tool.Handle, part, 0)
+                                firetouchinterest(tool.Handle, part, 1)
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            if loop then
+                loop:Disconnect()
+                loop = nil
+            end
+        end
+   end
+   if assets:FindFirstChild("Food", true) and state == true then
+     for i, v in pairs(workspace.Assets:GetDescendants()) do
+			if v.Name == game.Players.LocalPlayer.Name then
+				for _ = 1, 80 do
+					fireclickdetector(v.ClickDetector)
+				end
+			end
+		end
+   end
+   if assets:FindFirstChild("Spleef", true) and state == true then
+     local assets = workspace:FindFirstChild("Assets")
+if assets then
+    local spleef = assets:FindFirstChild("Spleef")
+    if spleef then
+        local part = spleef:FindFirstChild("Part")
+        if part then
+            local touch = part:FindFirstChild("TouchInterest")
+            if touch then
+                touch:Destroy()
+            end
+        end
+    end
+end
+    while asset:FindFirstChild("Spleef", true) do
+     task.wait(3)
+     for i, v in pairs(game.Workspace.Assets:GetDescendants()) do
+			if v.Name == "SpleefPart" then 
+				firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+				end
+			end
+		end
+   end
+   if not state then
+     return
+   end
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+   end,
+})
+  local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+local loop
+
+Tabsecret:CreateToggle({
+    Name = "Kill All In Sword Fight (IMPROVED & INSTANT)",
+    CurrentValue = false,
+    Flag = "AutoKillAllToggle",
+    Callback = function(v)
+        if v then
+            loop = RunService.RenderStepped:Connect(function()
+                local char = lp.Character
+                local tool = char and char:FindFirstChildOfClass("Tool")
+                if not (tool and tool:FindFirstChild("Handle")) then return end
+
+                for _, plr in ipairs(Players:GetPlayers()) do
+                    if plr ~= lp and plr.Character then
+                        tool:Activate()
+                        for _, part in ipairs(plr.Character:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                firetouchinterest(tool.Handle, part, 0)
+                                firetouchinterest(tool.Handle, part, 1)
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            if loop then
+                loop:Disconnect()
+                loop = nil
+            end
+        end
+    end
+})
+  local Toggle = Tabsecret:CreateToggle({
+	Name = "Expose Exile Votes",
+	CurrentValue = false,
+	Flag = "ExileVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.ExileVotesConn = game.ReplicatedStorage.Season.Twists.ExileVoting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				local s = r .. " voted to exile " .. d
+
+				game.TextChatService.TextChannels.RBXGeneral:SendAsync(s)
+			end)
+		else
+			if Tab.ExileVotesConn then
+				Tab.ExileVotesConn:Disconnect()
+				Tab.ExileVotesConn = nil
+			end
+		end
+	end,
+})
+  local Section = Tabsecret:CreateSection("Webhooks")
+  local texto = nil
+
+local Input = Tabsecret:CreateInput({
+   Name = "Enter Webhook Link",
+   CurrentValue = "",
+   PlaceholderText = "Link goes here...",
+   RemoveTextAfterFocusLost = true,
+   Flag = "Input1",
+   Callback = function(Text)
+   texto = Text
+   -- The variable (Text) is a string for the value in the text box
+   end,
+})
+
+local Toggle = Tabsecret:CreateToggle({
+	Name = "Send Votes Through Webhook",
+	CurrentValue = false,
+	Flag = "PrintVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.PrintVotesConn = game.ReplicatedStorage.Season.Voting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				local url =
+   texto
+local data = {
+   ["content"] = r .. " voted for " .. d,
+}
+local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+local headers = {
+   ["content-type"] = "application/json"
+}
+request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
+			end)
+		else
+			if Tab.PrintVotesConn then
+				Tab.PrintVotesConn:Disconnect()
+				Tab.PrintVotesConn = nil
+			end
+		end
+	end,
+})
+
+local Toggle = Tabsecret:CreateToggle({
+	Name = "Send Exile Votes Through Webhook",
+	CurrentValue = false,
+	Flag = "ExileVotes",
+	Callback = function(Value)
+		if Value then
+			Tab.ExileVotesConn = game.ReplicatedStorage.Season.Twists.ExileVoting.Votes.ChildAdded:Connect(function(v)
+				local r = game.ReplicatedStorage.Season.Players[v.Value].Value
+				local d = game.ReplicatedStorage.Season.Players[v.Name].Value
+				local s = r .. " voted to exile " .. d
+
+				local url =
+   texto
+local data = {
+   ["content"] = s,
+}
+local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+local headers = {
+   ["content-type"] = "application/json"
+}
+request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
+			end)
+		else
+			if Tab.ExileVotesConn then
+				Tab.ExileVotesConn:Disconnect()
+				Tab.ExileVotesConn = nil
+			end
+		end
+	end,
+})
+  local Section = Tabsecret:CreateSection("Sus (18+)")
+
+local Button = Tabsecret:CreateButton({
+   Name = "Bang GUI",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastefy.app/7U0jiA3p/raw"))()
+   end,
+})
+
+local Button = Tabsecret:CreateButton({
+   Name = "Jerk tool",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastefy.app/wa3v2Vgm/raw"))()
+   end,
+})
+
+local Button = Tabsecret:CreateButton({
+   Name = "Hug People",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastefy.app/fhUzn6vQ/raw"))()
+   end,
+})
+
+local Button = Tabsecret:CreateButton({
+   Name = "Get Banged",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/zHbw7ND1"))()
+   end,
+})
+
+local Button = Tabsecret:CreateButton({
+   Name = "Suck",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/SymCfnAW"))()
+   end,
+})
+
+local Button = Tabsecret:CreateButton({
+   Name = "Get Sucked",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/FPu4e2Qh"))()
+   end,
+})
+  local Label = Tabsecret:CreateLabel("Extremely sorry for the low amount of features, i will add a lot more soon.", "info")
